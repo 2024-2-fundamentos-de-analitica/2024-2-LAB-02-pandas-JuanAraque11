@@ -23,9 +23,13 @@ def pregunta_12():
     38   38                    eee:0,fff:9,iii:2
     39   39                    ggg:3,hhh:8,jjj:5
     """
-    df = pd.read_csv("files/input/tbl2.tsv", sep="	")
-    tabla = df.groupby("c0")["c5a", "c5b"].apply(lambda x: ",".join(x.astype(str))).reset_index()
-    tabla["c5"] = tabla["c5a"] + ":" + tabla["c5b"]
-    return tabla
+
+    df = pd.read_csv("files/input/tbl2.tsv", sep="\t")
+    
+    df['c5'] = df['c5a'].astype(str) + ':' + df['c5b'].astype(str)
+
+    grupo = df.sort_values(by=['c0', 'c5a']).groupby('c0')['c5'].apply(lambda x: ','.join(x)).reset_index()
+
+    return grupo
 
 print(pregunta_12())
